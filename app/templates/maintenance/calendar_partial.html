@@ -1,0 +1,47 @@
+<table class="table calendar">
+  <thead>
+    <tr>
+      <th>Пн</th>
+      <th>Вт</th>
+      <th>Ср</th>
+      <th>Чт</th>
+      <th>Пт</th>
+      <th>Сб</th>
+      <th>Нд</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for week in cal %}
+      <tr>
+        {% for day in week %}
+          <td>
+            {% if day != 0 %}
+              <strong>{{ day }}</strong><br>
+              {% set date_str = "{:04d}-{:02d}-{:02d}".format(year, month, day) %}
+              {% if tasks_by_date.get(date_str) %}
+                {% for task in tasks_by_date[date_str] %}
+                  <div>
+                    <div class="task" data-toggle="collapse" data-target="#desc-{{ task.id }}"
+                         aria-expanded="false" aria-controls="desc-{{ task.id }}">
+                      [{{ task.id }}] {{ task.title }}
+                    </div>
+                    <div id="desc-{{ task.id }}" class="collapse">
+                      <div class="dropdown-content">
+                        <p><strong>Опис:</strong> {{ task.description | default("немає опису") }}</p>
+                        {% if session.get("user_id") %}
+                          <a href="{{ url_for('maintenance.edit_task', task_id=task.id) }}" class="btn btn-sm btn-primary">Редагувати</a>
+                        {% else %}
+                          <a href="{{ url_for('maintenance.view_task', task_id=task.id) }}" class="btn btn-sm btn-info">Інформація</a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

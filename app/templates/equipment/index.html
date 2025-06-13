@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Список обладнання</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .container { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Список обладнання</h1>
+    {% if equipments|length == 0 %}
+      <p>Обладнання відсутнє.</p>
+    {% else %}
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Назва</th>
+            <th>Місцезнаходження</th>
+            <th>Модель</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for equip in equipments %}
+            <tr>
+              <td>{{ equip.id }}</td>
+              <td>{{ equip.name }}</td>
+              <td>{{ equip.location }}</td>
+              <td>{{ equip.model }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+    <a href="{{ url_for('equipment.create_equipment') }}" class="btn btn-primary">Додати нове обладнання</a>
+    <a href="{{ url_for('maintenance.index') }}" class="btn btn-secondary">Перейти до завдань</a>
+  </div>
+</body>
+</html>

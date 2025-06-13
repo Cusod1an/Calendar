@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Створення завдання</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Створіть нове завдання</h1>
+    <form method="post">
+      <div class="form-group">
+        <label for="equipment_id">Обладнання</label>
+        <select name="equipment_id" id="equipment_id" class="form-control" required>
+          <option value="">Оберіть обладнання</option>
+          {% for equip in equipments %}
+            <option value="{{ equip.id }}">{{ equip.name }} (ID: {{ equip.id }}) {% if equip.busy %} - Зайняте {% endif %}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="title">Назва завдання</label>
+        <input type="text" class="form-control" name="title" id="title" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Опис</label>
+        <textarea class="form-control" name="description" id="description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="date_scheduled">Дата планування</label>
+        <!-- Використовуємо HTML5 date-поле. Значення у форматі YYYY-MM-DD -->
+        <input type="date" class="form-control" name="date_scheduled" id="date_scheduled" required>
+      </div>
+      <div class="form-group">
+        <label for="status">Статус</label>
+        <select name="status" id="status" class="form-control">
+          {% for key, value in statuses %}
+            <option value="{{ key }}">{{ value }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="user_id">ID користувача (опційно)</label>
+        <input type="text" class="form-control" name="user_id" id="user_id">
+      </div>
+      <button type="submit" class="btn btn-primary">Створити завдання</button>
+    </form>
+    <br>
+    <a href="{{ url_for('maintenance.index') }}" class="btn btn-secondary">Повернутися до списку завдань</a>
+  </div>
+</body>
+</html>

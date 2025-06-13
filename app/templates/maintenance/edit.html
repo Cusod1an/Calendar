@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Редагування завдання</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Редагувати завдання (ID: {{ task.id }})</h1>
+    <form method="post">
+      <div class="form-group">
+        <label for="title">Назва завдання</label>
+        <input type="text" class="form-control" name="title" id="title" value="{{ task.title }}" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Опис</label>
+        <textarea class="form-control" name="description" id="description" rows="4">{{ task.description }}</textarea>
+      </div>
+      <div class="form-group">
+        <label for="date_scheduled">Дата планування</label>
+        <input type="date" class="form-control" name="date_scheduled" id="date_scheduled" value="{{ task.date_scheduled.strftime('%Y-%m-%d') }}" required>
+      </div>
+      <div class="form-group">
+        <label for="status">Статус</label>
+        <select name="status" id="status" class="form-control">
+          {% for key, value in statuses %}
+            <option value="{{ key }}" {% if task.status == key %}selected{% endif %}>{{ value }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Зберегти</button>
+    </form>
+    <br>
+    <a href="{{ url_for('maintenance.index') }}" class="btn btn-secondary">Повернутися до завдань</a>
+  </div>
+</body>
+</html>
